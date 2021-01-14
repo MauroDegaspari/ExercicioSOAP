@@ -1,23 +1,18 @@
 package servico;
 
-import java.util.List;
+import javax.jws.WebService;
 
 import entidade.Cliente;
 import entidade.Contato;
-
+@WebService(endpointInterface = "servico.Agenda")
 public class AgendaImp implements Agenda {
 
 	@Override
 	public boolean inserirCliente(Cliente cliente, Contato contato) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
-	@Override
-	public List<Cliente> PesquisarCliente(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean inserirContato(Cliente cliente, Contato contato) {
