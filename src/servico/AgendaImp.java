@@ -6,28 +6,31 @@ import java.util.List;
 import javax.jws.WebService;
 
 import entidade.Cliente;
+import entidade.Contato;
 import entidade.RetornoCliente;
 
 @WebService(endpointInterface = "servico.Agenda")
 public class AgendaImp implements Agenda {
-	
+
 	private List<Cliente> listaCliente = new ArrayList<Cliente>();
+	private List<Contato> listaContato = new ArrayList<Contato>();	
 	
-	
+
 	@Override
 	public RetornoCliente inserirCliente(Cliente cliente) {
 		RetornoCliente retorno = new RetornoCliente();
 		retorno.setCodigoRetorno(0);
 		retorno.setMensagemRetorno("SUCESSO");
-		
-		if(this.existe(cliente) == null) {
+
+		if (this.existe(cliente) == null) {
 			this.listaCliente.add(cliente);
-		}else {
+		} else {
 			retorno.setCodigoRetorno(0);
 			retorno.setMensagemRetorno("FALHA: Cliente já existe!!");
 		}
 		return retorno;
 	}
+
 	@Override
 	public RetornoCliente pesquisaCliente(Cliente cliente) {
 		RetornoCliente retorno = new RetornoCliente();
@@ -36,11 +39,24 @@ public class AgendaImp implements Agenda {
 		retorno.setListaCliente(this.listaCliente);
 		return retorno;
 	}
+
 	@Override
-	public RetornoCliente adicionarContato(Cliente cliente) {
-		// TODO Auto-generated method stub
+	public RetornoCliente adicionarContato(Contato contato) {
+		RetornoCliente retorno = new RetornoCliente();
+		
+		//if (this.listaCliente == null && this.listaCliente.equals(listaContato)) {
+		if(this.contatoExiste(cliente) == null) {
+			this.listaContato.add(contato);
+			retorno.setCodigoRetorno(0);
+			retorno.setMensagemRetorno("SUCESSO");
+		} else {
+			retorno.setCodigoRetorno(0);
+			retorno.setMensagemRetorno("erro: Contato já existe!!!");
+		}
+		
 		return null;
 	}
+
 	@Override
 	public RetornoCliente excluirContato(Cliente cliente) {
 		// TODO Auto-generated method stub
@@ -49,24 +65,41 @@ public class AgendaImp implements Agenda {
 
 	// metodo utilizado para verificar e retornar o cliente existente
 	private Cliente existe(Cliente cliente) {
-		if(cliente != null && cliente.getCpf() != null
-				&& !cliente.getCpf().isEmpty()) {
-			
-		//indexOf percorre a lista e retorna 0
+		if (cliente != null && cliente.getCpf() != null && !cliente.getCpf().isEmpty()) {
+
+			// indexOf percorre a lista e retorna 0
 			int index = this.listaCliente.indexOf(cliente);
-		
-		if(index != -1) {
-			return this.listaCliente.get(index);
-		}else {
+
+			if (index != -1) {
+				return this.listaCliente.get(index);
+			} else {
 				return null;
 			}
 		}
-			
+
 		else {
 			return null;
 		}
+	}
+	
+	private Cliente contatoExiste(Cliente cliente) {
+		
+		if (cliente.getListaDeContato() == null && cliente.getListaDeContato().equals(listaContato)) {
+			int index = this.listaContato.indexOf(cliente);
+
+			if (index != -1) {
+				return this.listaContato.get(index);
+			} else 
+				{
+				return null;
+				}
+		}
+
+		else {
+			return null;
 		}
 	}
 	
+	
 
-
+}

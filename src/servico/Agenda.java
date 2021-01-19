@@ -6,6 +6,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
 import entidade.Cliente;
+import entidade.Contato;
 import entidade.RetornoCliente;
 
 @WebService	
@@ -19,7 +20,7 @@ public interface Agenda {
 	public RetornoCliente pesquisaCliente(Cliente cliente);
 	
 	@WebMethod
-	public RetornoCliente adicionarContato(Cliente cliente);
+	public RetornoCliente adicionarContato(Contato contato);
 	
 	@WebMethod
 	public RetornoCliente excluirContato(Cliente cliente);
