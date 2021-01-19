@@ -1,5 +1,7 @@
 package entidade;
 
+import java.util.List;
+
 public class Cliente {
 	
 	private String nome;
@@ -7,7 +9,7 @@ public class Cliente {
 	private String idade;
 	private String sexo;
 	private String interesses;
-	private Contato listaDeContato;
+	private List<Contato> listaDeContato;
 	
 	
 	public String getNome() {
@@ -40,11 +42,23 @@ public class Cliente {
 	public void setInteresses(String interesses) {
 		this.interesses = interesses;
 	}
-	public Contato getListaDeContato() {
+	public List<Contato> getListaDeContato() {
 		return listaDeContato;
 	}
-	public void setListaDeContato(Contato listaDeContato) {
+	public void setListaDeContato(List<Contato> listaDeContato) {
 		this.listaDeContato = listaDeContato;
 	}
-
+	
+	//cast - 
+	@Override // metodo de comparação
+	public boolean equals(Object obj) {
+		Cliente clienteEntrada = (Cliente)obj; // cliente de entrada
+		
+		if(this.cpf.equals(clienteEntrada.getCpf())) {
+			return true;
+	}else 	{
+		return false;
+	}
+		
+	}
 }

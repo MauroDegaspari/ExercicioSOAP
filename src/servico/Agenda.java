@@ -6,21 +6,24 @@ import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
 import entidade.Cliente;
-import entidade.Contato;
+import entidade.RetornoCliente;
 
 @WebService	
 @SOAPBinding(style = Style.RPC)
 public interface Agenda {
 	
 	@WebMethod
-	public boolean inserirCliente(Cliente cliente, Contato contato);
-	
-		
+	public RetornoCliente inserirCliente(Cliente cliente);	
+			
 	@WebMethod
-	public boolean inserirContato(Cliente cliente, Contato contato);
+	public RetornoCliente pesquisaCliente(Cliente cliente);
 	
 	@WebMethod
-	public boolean excluirContato(Cliente cliente, Contato contato);
+	public RetornoCliente adicionarContato(Cliente cliente);
+	
+	@WebMethod
+	public RetornoCliente excluirContato(Cliente cliente);
+	
 	
 
 }
