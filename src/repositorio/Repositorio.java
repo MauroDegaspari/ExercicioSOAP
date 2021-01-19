@@ -1,12 +1,10 @@
 package repositorio;
 
-import java.util.List;
-
-import entidade.Cliente;
+import java.util.ArrayList;
 
 public class Repositorio {
 
-	public List<Cliente> PesquisarCliente(Cliente cliente){
-		return null;
-	}
+	ArrayList<String> Listar = new ArrayList<>();
+	
+	 
 }
