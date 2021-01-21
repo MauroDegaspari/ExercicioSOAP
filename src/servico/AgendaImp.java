@@ -13,8 +13,7 @@ import entidade.RetornoCliente;
 public class AgendaImp implements Agenda {
 
 	private List<Cliente> listaCliente = new ArrayList<Cliente>();
-	private List<Contato> listaContato = new ArrayList<Contato>();	
-	
+		
 
 	@Override
 	public RetornoCliente inserirCliente(Cliente cliente) {
@@ -39,28 +38,83 @@ public class AgendaImp implements Agenda {
 		retorno.setListaCliente(this.listaCliente);
 		return retorno;
 	}
-
 	@Override
-	public RetornoCliente adicionarContato(Contato contato) {
-		RetornoCliente retorno = new RetornoCliente();
+	public RetornoCliente adicionarContato(Cliente cliente) {
 		
-		//if (this.listaCliente == null && this.listaCliente.equals(listaContato)) {
-		if(this.contatoExiste(cliente) == null) {
-			this.listaContato.add(contato);
+			RetornoCliente retorno = new RetornoCliente();
 			retorno.setCodigoRetorno(0);
-			retorno.setMensagemRetorno("SUCESSO");
-		} else {
-			retorno.setCodigoRetorno(0);
-			retorno.setMensagemRetorno("erro: Contato já existe!!!");
-		}
-		
-		return null;
-	}
+			retorno.setMensagemRetorno("SUCESSO!!!");
+			// 1 - verificar se existe o cliente na base
+			Cliente clienteBase = this.existe(cliente);
+			
+			if(clienteBase != null) {
+				//2 - Verificar se existe contatos para serem inseridos
+				if(cliente.getListaDeContato() != null && 
+					cliente.getListaDeContato().size() > 0) {
+					
+			// 3 - Verifica se existe contato ja inseridos na base --------
+					boolean existeContato = false;
+					for (Contato contatoEntrada : cliente.getListaDeContato()) {
+						int index = clienteBase.getListaDeContato().indexOf(contatoEntrada);
+						if(index != -1) {
+							existeContato = true;
+						}
+					}
+					
+				// 4 - Se existir contato manda o erro, senão, adiciona todos os contatos
+					if(existeContato) {
+						retorno.setCodigoRetorno(1);
+						retorno.setMensagemRetorno("FALHA: Contato já existente!!!");
+					} else {
+						clienteBase.getListaDeContato().addAll(cliente.getListaDeContato());
+					}
 
+				}else {
+					retorno.setCodigoRetorno(1);
+					retorno.setMensagemRetorno("FALHA: Não existe contato para adicionar!!!");
+				}
+			}else {
+				retorno.setCodigoRetorno(1);
+				retorno.setMensagemRetorno("FALHA: Cliente não existe!!");
+			}
+			
+			return retorno;
+		}
 	@Override
 	public RetornoCliente excluirContato(Cliente cliente) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		RetornoCliente retorno = new RetornoCliente();
+		retorno.setCodigoRetorno(0);
+		retorno.setMensagemRetorno("SUCESSO!!!");
+		// 1 - verificar se existe o cliente na base
+		Cliente clienteBase = this.existe(cliente);
+		
+		if(clienteBase != null) {
+			//2 - Verificar se existe contatos para serem inseridos
+			if(cliente.getListaDeContato() != null && 
+				cliente.getListaDeContato().size() > 0) {
+				
+		
+				//3 - verificar se o contato existe para ser deletado.
+				for (Contato contatoEntrada : cliente.getListaDeContato()) {
+					int index = clienteBase.getListaDeContato().indexOf(contatoEntrada);
+					if(index != -1) {
+						
+						cliente.getListaDeContato().remove(index);
+					}
+				}
+				
+
+			}else {
+				retorno.setCodigoRetorno(1);
+				retorno.setMensagemRetorno("FALHA: Não existe contato para remover!!!");
+			}
+		}else {
+			retorno.setCodigoRetorno(1);
+			retorno.setMensagemRetorno("FALHA: Cliente não existe!!");
+		}
+		
+		return retorno;
 	}
 
 	// metodo utilizado para verificar e retornar o cliente existente
@@ -82,24 +136,6 @@ public class AgendaImp implements Agenda {
 		}
 	}
 	
-	private Cliente contatoExiste(Cliente cliente) {
-		
-		if (cliente.getListaDeContato() == null && cliente.getListaDeContato().equals(listaContato)) {
-			int index = this.listaContato.indexOf(cliente);
 
-			if (index != -1) {
-				return this.listaContato.get(index);
-			} else 
-				{
-				return null;
-				}
-		}
-
-		else {
-			return null;
-		}
-	}
 	
-	
-
 }
