@@ -18,4 +18,19 @@ public class Contato {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	//cast - 
+		@Override // metodo de comparação
+		public boolean equals(Object obj) {
+
+			Contato contatoEntrada = (Contato)obj;
+			
+			if(this.email.equalsIgnoreCase(contatoEntrada.getEmail())
+					|| this.telefone.equals(contatoEntrada.getTelefone())) {
+					return true;
+					}else 	{
+					return false;
+		}
+			
+		}
 }
